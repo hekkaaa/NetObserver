@@ -56,7 +56,7 @@ namespace NetObserver.PingUtility
         /// A preliminary request to send ICMP messages to the specified computer and receive a response from it. This method allows you to specify a timeout for the operation.
         /// </summary>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
-        /// <param name="timeout">The address of the remote host from which you want to receive a response.</param>
+        /// <param name="timeout">An Int32 value that specifies the maximum time (after sending ping messages) to wait for an ICMP ping message, in milliseconds.</param>
         /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
         /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
         /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
