@@ -7,9 +7,12 @@ namespace NetObserverTest
 {
     public class PingIcmpTests
     {
+        private IcmpRequestSender? _pingIcmp;
+
         [SetUp]
         public void Setup()
         {
+            _pingIcmp = new IcmpRequestSender();
         }
 
         [Test]
@@ -19,10 +22,8 @@ namespace NetObserverTest
             string hostname = "google.com";
             IPStatus expectedStatus = IPStatus.Success;
 
-            PingIcmp itemClass = new PingIcmp();
-
             // Act
-            PingReply actual = itemClass.PingRequest(hostname);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -37,10 +38,8 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
             int expectationDelay = 0; // default local time delay.
 
-            PingIcmp itemClass = new PingIcmp();
-
             // Act
-            PingReply actual = itemClass.PingRequest(hostname);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -57,10 +56,8 @@ namespace NetObserverTest
             int timeout = 2000;
             IPStatus expectedStatus = IPStatus.Success;
 
-            PingIcmp itemClass = new PingIcmp();
-
             // Act
-            PingReply actual = itemClass.PingRequest(hostname, timeout);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -76,10 +73,8 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
             int expectationDelay = 0; // default local time delay.
 
-            PingIcmp itemClass = new PingIcmp();
-
             // Act
-            PingReply actual = itemClass.PingRequest(hostname, timeout);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -97,10 +92,8 @@ namespace NetObserverTest
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
             IPStatus expectedStatus = IPStatus.Success;
 
-            PingIcmp itemClass = new PingIcmp();
-
             // Act
-            PingReply actual = itemClass.PingRequest(hostname, timeout, buffer, options);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -116,12 +109,11 @@ namespace NetObserverTest
             int timeout = 2000; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, timeout, buffer, options));
+            Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
@@ -132,12 +124,11 @@ namespace NetObserverTest
             int timeout = 2000; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname, timeout, buffer, options));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
@@ -148,12 +139,11 @@ namespace NetObserverTest
             int timeout = -10; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => itemClass.PingRequest(hostname, timeout, buffer, options));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
@@ -164,12 +154,11 @@ namespace NetObserverTest
             int timeout = 0; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, timeout, buffer, options));
+            Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
@@ -180,10 +169,9 @@ namespace NetObserverTest
             int timeout = 2000; // default timeout
             byte[] buffer = new byte[0];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
-            PingReply actual = itemClass.PingRequest(hostname, timeout, buffer, options);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -198,10 +186,9 @@ namespace NetObserverTest
             int timeout = 2000; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 1, DontFragment = true };
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
-            PingReply actual = itemClass.PingRequest(hostname, timeout, buffer, options);
+            PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -216,12 +203,11 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname));
+            Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname));
         }
 
         [Test]
@@ -229,12 +215,11 @@ namespace NetObserverTest
         {
             // Arrange
             string? hostname = null;
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname));
         }
 
 
@@ -244,12 +229,11 @@ namespace NetObserverTest
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
             int timeout = 2000;
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, timeout));
+            Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
@@ -258,12 +242,11 @@ namespace NetObserverTest
             // Arrange
             string? hostname = null;
             int timeout = 2000;
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname, timeout));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
@@ -272,12 +255,11 @@ namespace NetObserverTest
             // Arrange
             string? hostname = "localhost";
             int timeout = -1;
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => itemClass.PingRequest(hostname, timeout));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
@@ -286,12 +268,11 @@ namespace NetObserverTest
             // Arrange
             string? hostname = "localhost";
             int timeout = 0;
-            PingIcmp itemClass = new PingIcmp();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, timeout));
+            Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
     }
 }

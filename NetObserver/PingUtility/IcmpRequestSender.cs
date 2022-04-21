@@ -6,7 +6,7 @@ namespace NetObserver.PingUtility
     /// <summary>
     /// Attempts to send an ICMP ping request message to a remote computer and receive a corresponding ICMP ping response message from it.
     /// </summary>
-    public class PingIcmp
+    public class IcmpRequestSender
     {
         /// <summary>
         /// Attempts to send an ICMP ping request message to the specified computer and receive a corresponding ICMP ping response message from it.
@@ -18,7 +18,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A List <see cref="PingReply"/> objects that provides information about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public PingReply PingRequest(string hostname)
+        public PingReply RequestIcmp(string hostname)
         {
             using (Ping ping = new Ping())
             {
@@ -61,7 +61,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A <see cref="PingReply"/> objects that provides information about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public PingReply PingRequest(string hostname, int timeout)
+        public PingReply RequestIcmp(string hostname, int timeout)
         {
             using (Ping ping = new Ping())
             {
@@ -106,7 +106,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A <see cref="PingReply"/> objects that provides information about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public PingReply PingRequest(string hostname, int timeout, byte[] buffer, PingOptions options)
+        public PingReply RequestIcmp(string hostname, int timeout, byte[] buffer, PingOptions options)
         {
             using (Ping ping = new Ping())
             {

@@ -1,18 +1,20 @@
-﻿using NUnit.Framework;
-using NetObserver.PingUtility;
-using System.Net.NetworkInformation;
-using System.Collections.Generic;
+﻿using NetObserver.TracerouteUtility;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using NetObserver.TracerouteUtility;
+using System.Net.NetworkInformation;
 
 namespace NetObserverTest
 {
     public class TracerouteTests
     {
+        private Traceroute? _traceroute;
+
         [SetUp]
         public void Setup()
         {
+            _traceroute = new Traceroute();
         }
 
         [Test]
@@ -21,10 +23,9 @@ namespace NetObserverTest
             // Arrange
             string hostname = "google.com";
             int minimalCount = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
-            List<string> actual = (List<string>)itemClass.GetIpTraceRoute(hostname);
+            List<string> actual = (List<string>)_traceroute!.GetIpTraceRoute(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -41,11 +42,9 @@ namespace NetObserverTest
             bool fragment = true;
             int ttl = 1;
             byte[] buffer = new byte[32];
-            PingOptions options = new PingOptions() { Ttl = 30, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
-            List<string> actual = (List<string>)itemClass.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl);
+            List<string> actual = (List<string>)_traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -61,13 +60,11 @@ namespace NetObserverTest
             bool fragment = true;
             int ttl = 1;
             byte[] buffer = new byte[32];
-            PingOptions options = new PingOptions() { Ttl = 30, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
-           
+
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<PingException>(() => _traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -79,13 +76,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            PingOptions options = new PingOptions() { Ttl = 30, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -97,13 +92,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            PingOptions options = new PingOptions() { Ttl = 30, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => itemClass.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -113,13 +106,11 @@ namespace NetObserverTest
             string hostname = "google.com";
             int timeout = 0;
             byte[] buffer = new byte[32];
-            PingOptions options = new PingOptions() { Ttl = 30, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetIpTraceRoute(hostname, timeout, buffer));
+            Assert.Throws<PingException>(() => _traceroute!.GetIpTraceRoute(hostname, timeout, buffer));
         }
 
         [Test]
@@ -132,11 +123,9 @@ namespace NetObserverTest
             int maxTtl = 3;
             bool fragment = true;
             int ttl = 1;
-            PingOptions options = new PingOptions() { Ttl = 1, DontFragment = true };
-            Traceroute itemClass = new Traceroute();
 
             // Act
-            List<string> actual = (List<string>)itemClass.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl, maxTtl);
+            List<string> actual = (List<string>)_traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl, maxTtl);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -148,12 +137,11 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetIpTraceRoute(hostname));
+            Assert.Throws<PingException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
 
         [Test]
@@ -161,12 +149,11 @@ namespace NetObserverTest
         {
             // Arrange
             string? hostname = null;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.GetIpTraceRoute(hostname));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
 
 
@@ -177,18 +164,15 @@ namespace NetObserverTest
             string hostname = "google.com";
             int maxTtl = 30;
             byte[] buffer = new byte[32]; // default buffer byte.
-            Traceroute itemClass = new Traceroute();
 
             // Act
-            List<PingReply> actual = (List<PingReply>)itemClass.GetDetailTraceRoute(hostname);
+            List<PingReply> actual = (List<PingReply>)_traceroute!.GetDetailTraceRoute(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
-        #pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
-            Assert.AreEqual(IPStatus.Success, actual.FirstOrDefault().Status);
-            Assert.AreEqual(IPStatus.Success, actual.LastOrDefault().Status);
-            Assert.AreEqual(buffer.Length, actual.LastOrDefault().Buffer.Length);
-        #pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
+            Assert.AreEqual(IPStatus.Success, actual.FirstOrDefault()!.Status);
+            Assert.AreEqual(IPStatus.Success, actual.LastOrDefault()!.Status);
+            Assert.AreEqual(buffer.Length, actual.LastOrDefault()!.Buffer.Length);
             Assert.IsTrue(maxTtl >= actual.Count);
         }
 
@@ -198,12 +182,11 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetDetailTraceRoute(hostname));
+            Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
 
         [Test]
@@ -211,12 +194,11 @@ namespace NetObserverTest
         {
             // Arrange
             string? hostname = null;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.GetDetailTraceRoute(hostname));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
 
         [Test]
@@ -229,18 +211,15 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
-            List<PingReply> actual = (List<PingReply>)itemClass.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl);
+            List<PingReply> actual = (List<PingReply>)_traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl);
 
             // Assert
             Assert.IsNotNull(actual);
-        #pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
-            Assert.AreEqual(IPStatus.Success, actual.FirstOrDefault().Status);
-            Assert.AreEqual(IPStatus.Success, actual.LastOrDefault().Status);
-            Assert.AreEqual(buffer.Length, actual.LastOrDefault().Buffer.Length);
-        #pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
+            Assert.AreEqual(IPStatus.Success, actual.FirstOrDefault()!.Status);
+            Assert.AreEqual(IPStatus.Success, actual.LastOrDefault()!.Status);
+            Assert.AreEqual(buffer.Length, actual.LastOrDefault()!.Buffer.Length);
             Assert.IsTrue(maxTtl >= actual.Count);
         }
 
@@ -253,12 +232,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -270,12 +248,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -287,12 +264,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => itemClass.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -304,12 +280,11 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-            Traceroute itemClass = new Traceroute();
 
             // Act
 
             // Assert
-            Assert.Throws<PingException>(() => itemClass.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
     }
 }
