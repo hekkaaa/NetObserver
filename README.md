@@ -1,6 +1,5 @@
 # NetObserver
 
-### Nuget packet
 A helper library to simplify code flavor with networking.
 Includes tracing, ICMP requests.
 
