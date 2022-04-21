@@ -1,7 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageTags>Ip, Network, Traceroute, netstandard2.0</PackageTags>
+    <PackageId>NetObserver.Helper</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Pototsky Alexander</Authors>
+    <Company>Pototsky Alexander</Company>
+    <Product>NetObserver</Product>
+    <Copyright>MIT</Copyright>
+    <PackageProjectUrl>https://github.com/hekkaaa/NetObserver</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hekkaaa/NetObserver.git</RepositoryUrl>
+    <Description>NetObserver - is an open source, cross-platform .NET Standard 2.0 library that implements a set of networking utilities. 
+
+Features include: 
+* Send ICMP-ECHO request.
+* Traceroute and Ping utility</Description>
+    <PackageReleaseNotes>Add Send ICMP-ECHO request and </PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>

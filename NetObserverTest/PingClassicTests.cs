@@ -8,22 +8,24 @@ namespace NetObserverTest
 {
     public class PingClassicTests
     {
+        private PingClassic? _pingClassic;
+        
         [SetUp]
         public void Setup()
         {
+            _pingClassic = new PingClassic();
         }
 
         [Test]
-        public void PingRequest_OnlyHostname_Test()
+        public void PingRequestTest_WhenHostnameGoogle()
         {
             // Arrange
             string hostname = "google.com";
             int countItemRepeat = 4; // defaut repeat for CMD.
             IPStatus expectedStatus = IPStatus.Success;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-            List<PingReply> actual = itemClass.PingRequest(hostname);
+            List<PingReply> actual = _pingClassic!.RequestPing(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -32,17 +34,16 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_OnlyHostname_localhost_Test()
+        public void PingRequestTest_WhenHostnameLocalhost()
         {
             // Arrange
             string hostname = "localhost";
             int countItemRepeat = 4; // defaut repeat for CMD.
             int expectationDelay = 0; // default local time delay.
             IPStatus expectedStatus = IPStatus.Success;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-            List<PingReply> actual = itemClass.PingRequest(hostname);
+            List<PingReply> actual = _pingClassic!.RequestPing(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -52,16 +53,15 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_HostnameAndRepeat_Test()
+        public void PingRequestTest_WhenRepeatWithRepeatbyUser()
         {
             // Arrange
             string hostname = "google.com";
-            int countItemRepeat = 6; // defaut repeat for CMD.
+            int countItemRepeat = 6; // user repeat
             IPStatus expectedStatus = IPStatus.Success;
-            PingClassic itemClass = new PingClassic();
-
+           
             // Act
-            List<PingReply> actual = itemClass.PingRequest(hostname, countItemRepeat);
+            List<PingReply> actual = _pingClassic!.RequestPing(hostname, countItemRepeat);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -70,17 +70,34 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_Hostname_Timeout_Repeat_Test()
+        public void PingRequestTest_WhenFullSetOfArguments()
+        {
+            // Arrange
+            string hostname = "localhost";
+            int countItemRepeat = 10; // user repeat
+            int valueTimeout = 2000;
+            IPStatus expectedStatus = IPStatus.Success;
+          
+            // Act
+            List<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expectedStatus, actual[0].Status);
+            Assert.AreEqual(countItemRepeat, actual.Count);
+        }
+
+        [Test]
+        public void PingRequestTest_WhenFullSetOfArgumentsWithHostnameLocalhost()
         {
             // Arrange
             string hostname = "localhost";
             int countItemRepeat = 10; // defaut repeat for CMD.
             int valueTimeout = 2000;
             IPStatus expectedStatus = IPStatus.Success;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-            List<PingReply> actual = itemClass.PingRequest(hostname, valueTimeout, countItemRepeat);
+            List<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -89,41 +106,21 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_Localhost_Timeout_Repeat_Test()
-        {
-            // Arrange
-            string hostname = "localhost";
-            int countItemRepeat = 10; // defaut repeat for CMD.
-            int valueTimeout = 2000;
-            IPStatus expectedStatus = IPStatus.Success;
-            PingClassic itemClass = new PingClassic();
-
-            // Act
-            List<PingReply> actual = itemClass.PingRequest(hostname, valueTimeout, countItemRepeat);
-
-            // Assert
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expectedStatus, actual[0].Status);
-            Assert.AreEqual(countItemRepeat, actual.Count);
-        }
-
-        [Test]
-        public void PingRequest_BadHostname_Timeout_Repeat_NegativeTest()
+        public void PingRequestTest_WhenFullSetOfArgumentsWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
             int countItemRepeat = 10; // defaut repeat for CMD.
             int valueTimeout = 2000;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, valueTimeout, countItemRepeat));
+            Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_NullHostname_Timeout_Repeat_NegativeTest()
+        public void PingRequestTest_WhenFullSetOfArgumentsWithNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
@@ -132,13 +129,13 @@ namespace NetObserverTest
             PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname, valueTimeout, countItemRepeat));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_Localhost_ZeroTimeout_Repeat_NegativeTest()
+        public void PingRequestTest_WhenFullSetOfArgumentsWithZeroTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "localhost";
@@ -147,78 +144,73 @@ namespace NetObserverTest
             PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, valueTimeout, countItemRepeat));
+            Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_Localhost_NegativeTimeout_Repeat_NegativeTest()
+        public void PingRequestTest_WhenFullSetOfArgumentsWithNegativeTimeout_ShouldThrowArgumentOutOfRangeException()
         {
             // Arrange
             string hostname = "localhost";
             int countItemRepeat = 10; // defaut repeat for CMD.
             int valueTimeout = -10;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => itemClass.PingRequest(hostname, valueTimeout, countItemRepeat));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_BadHostnameAndRepeat_NegativeTest()
+        public void PingRequestTest_WhenHosnameAndRepeatWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
             int countItemRepeat = 4;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname, countItemRepeat));
+            Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_NullHostnameAndRepeat_NegativeTest()
+        public void PingRequestTest_WhenHosnameAndRepeatWithNullHost_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
-            int countItemRepeat = 4; 
-            PingClassic itemClass = new PingClassic();
+            int countItemRepeat = 4;
 
             // Act
-
+            
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname, countItemRepeat));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, countItemRepeat));
         }
 
         [Test]
-        public void PingRequest_BadHostname_NegativeTest()
+        public void PingRequestTest_WhenHosnameWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
-            PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<PingException>(() => itemClass.PingRequest(hostname));
+            Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname));
         }
 
         [Test]
-        public void PingRequest_NullHostname_NegativeTest()
+        public void PingRequestTest_WhenHosnameWithNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
-            PingClassic itemClass = new PingClassic();
 
             // Act
-
+            
             // Assert
-            Assert.Throws<ArgumentNullException>(() => itemClass.PingRequest(hostname));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname));
         }
     }
 }

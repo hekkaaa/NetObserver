@@ -20,14 +20,14 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A List of 4 <see cref="PingReply"/> objects that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public List<PingReply> PingRequest(string hostname)
+        public List<PingReply> RequestPing(string hostname)
         {
-            PingIcmp ping = new PingIcmp();
+            IcmpRequestSender ping = new IcmpRequestSender();
             List<PingReply> pingReplyListReturn = new List<PingReply>();
 
             for (int i = 0; i < 4; i++)
             {
-                pingReplyListReturn.Add(ping.PingRequest(hostname));
+                pingReplyListReturn.Add(ping.RequestIcmp(hostname));
             }
 
             return pingReplyListReturn;
@@ -44,14 +44,14 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A List <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public List<PingReply> PingRequest(string hostname, int repeat)
+        public List<PingReply> RequestPing(string hostname, int repeat)
         {
-            PingIcmp ping = new PingIcmp();
+            IcmpRequestSender ping = new IcmpRequestSender();
             List<PingReply> pingReplyListReturn = new List<PingReply>();
 
             for (int i = 0; i < repeat; i++)
             {
-                pingReplyListReturn.Add(ping.PingRequest(hostname));
+                pingReplyListReturn.Add(ping.RequestIcmp(hostname));
             }
 
             return pingReplyListReturn;
@@ -69,14 +69,14 @@ namespace NetObserver.PingUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>A List <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
-        public List<PingReply> PingRequest(string hostname, int timeout, int repeat)
+        public List<PingReply> RequestPing(string hostname, int timeout, int repeat)
         {
-            PingIcmp ping = new PingIcmp();
+            IcmpRequestSender ping = new IcmpRequestSender();
             List<PingReply> pingReplyListReturn = new List<PingReply>();
 
             for (int i = 0; i < repeat; i++)
             {
-                pingReplyListReturn.Add(ping.PingRequest(hostname, timeout));
+                pingReplyListReturn.Add(ping.RequestIcmp(hostname, timeout));
             }
 
             return pingReplyListReturn;
