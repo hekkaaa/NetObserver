@@ -52,8 +52,8 @@ namespace NetObserver.TracerouteUtility
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
         /// <param name="timeout">An Int32 value that specifies the maximum time (after sending ping messages) to wait for an ICMP ping message, in milliseconds.</param>
         /// <param name="buffer">A Byte[] array that contains data to be sent with the ICMP echo message and returned in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.</param>
-        /// <param name="frag">DontFragment = Packet fragmentation (Default default = (bool) true).</param>
-        /// <param name="ttl">TTL = initial value at the beginning of the trace (Default value = (int) 1).</param>
+        /// <param name="frag">DontFragment = Packet fragmentation (Default value = (bool) true).</param>
+        /// <param name="ttl">TTL = Initial value at the beginning of the trace (Default value = (int) 1).</param>
         /// <param name="maxTll">Maximum burst lifetime (TTL).</param>
         /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
         /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
@@ -61,7 +61,7 @@ namespace NetObserver.TracerouteUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>Returns an object IEnumerableable <see cref="string"/> representing the list of IP addresses of the entire route.</returns>
-        public IEnumerable<string> GetIpTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = true, int ttl = 1, int maxTll = 30)
+        public IEnumerable<string> GetIpTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = default, int ttl = 1, int maxTll = 30)
         {
             IcmpRequestSender pingSender = new IcmpRequestSender();
             List<string> resultList = new List<string>();
@@ -122,8 +122,8 @@ namespace NetObserver.TracerouteUtility
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
         /// <param name="timeout">An Int32 value that specifies the maximum time (after sending ping messages) to wait for an ICMP ping message, in milliseconds.</param>
         /// <param name="buffer">A Byte[] array that contains data to be sent with the ICMP echo message and returned in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.</param>
-        /// <param name="frag">DontFragment = Packet fragmentation (Default default = (bool) true).</param>
-        /// <param name="ttl">TTL = initial value at the beginning of the trace (Default value = (int) 1).</param>
+        /// <param name="frag">DontFragment = Packet fragmentation (Default value = (bool) true).</param>
+        /// <param name="ttl">TTL = Initial value at the beginning of the trace (Default value = (int) 1).</param>
         /// <param name="maxTtl">Maximum burst lifetime (TTL)</param>
         /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
         /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
@@ -131,7 +131,7 @@ namespace NetObserver.TracerouteUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>Returns the IEnumerable <see cref="PingReply"/> object with a detailed description of each route step.</returns>
-        public IEnumerable<PingReply> GetDetailTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = true, int ttl = 1, int maxTtl = 30)
+        public IEnumerable<PingReply> GetDetailTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = default, int ttl = 1, int maxTtl = 30)
         {
             IcmpRequestSender pingSender = new IcmpRequestSender();
             List<PingReply> resultList = new List<PingReply>();

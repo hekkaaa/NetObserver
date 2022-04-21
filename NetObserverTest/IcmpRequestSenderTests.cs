@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 
 namespace NetObserverTest
 {
-    public class PingIcmpTests
+    public class IcmpRequestSenderTests
     {
         private IcmpRequestSender? _pingIcmp;
 
@@ -16,7 +16,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_OnlyHostnameGoogle_Test()
+        public void RequestIcmpTest_WhenHostnameGoogle()
         {
             // Arrange
             string hostname = "google.com";
@@ -24,14 +24,14 @@ namespace NetObserverTest
 
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname);
-
+            
             // Assert
             Assert.IsNotNull(actual);
             Assert.AreEqual(expectedStatus, actual.Status);
         }
 
         [Test]
-        public void PingRequest_OnlyHostnameLocalhost_Test()
+        public void RequestIcmpTest_WhenHostnameLocalhost()
         {
             // Arrange
             string hostname = "localhost";
@@ -49,13 +49,13 @@ namespace NetObserverTest
 
 
         [Test]
-        public void PingRequest_HostnameGoogleAndTimeout_Test()
+        public void RequestIcmpTest_WhenHostnameGoogleWithTimeout()
         {
             // Arrange
             string hostname = "google.com";
             int timeout = 2000;
             IPStatus expectedStatus = IPStatus.Success;
-
+            
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout);
 
@@ -65,7 +65,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_LocalhostAndTimeout_Test()
+        public void RequestIcmpTest_WhenLocalhostWithTimeout()
         {
             // Arrange
             string hostname = "localhost";
@@ -75,7 +75,7 @@ namespace NetObserverTest
 
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout);
-
+            
             // Assert
             Assert.IsNotNull(actual);
             Assert.AreEqual(expectedStatus, actual.Status);
@@ -83,7 +83,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_FullCustom_Test()
+        public void RequestIcmpTest_WhenFullSetOfArguments()
         {
             // Arrange
             string hostname = "google.com";
@@ -91,7 +91,7 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
             IPStatus expectedStatus = IPStatus.Success;
-
+            
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
 
@@ -102,7 +102,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_FullCustom_BadHostname_NegativeTest()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
@@ -111,13 +111,13 @@ namespace NetObserverTest
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
-        public void PingRequest_FullCustom_NullHostname_NegativeTest()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
@@ -126,13 +126,13 @@ namespace NetObserverTest
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
-        public void PingRequest_FullCustom_BadTimeout_NegativeTest()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithBadTimeout_ShouldThrowArgumentOutOfRangeException()
         {
             // Arrange
             string hostname = "google.com";
@@ -141,13 +141,13 @@ namespace NetObserverTest
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
-        public void PingRequest_FullCustom_ZeroTimeout_NegativeTest()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithZeroTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "google.com";
@@ -156,13 +156,13 @@ namespace NetObserverTest
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
         }
 
         [Test]
-        public void PingRequest_FullCustom_BadBuffer_NegativeTest()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithBadBuffer()
         {
             // Arrange
             string hostname = "google.com";
@@ -172,21 +172,21 @@ namespace NetObserverTest
 
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
-
+            
             // Assert
             Assert.IsNotNull(actual);
             Assert.AreEqual(buffer, actual.Buffer);
         }
 
         [Test]
-        public void PingRequest_FullCustom_LowTtl_Test()
+        public void RequestIcmpTest_WhenFullSetOfArgumentsWithLowTtl()
         {
             // Arrange
             string hostname = "google.com";
             int timeout = 2000; // default timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 1, DontFragment = true };
-
+            
             // Act
             PingReply actual = _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options);
 
@@ -199,78 +199,78 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void PingRequest_BadHostname_NegativeTest()
+        public void RequestIcmpTest_WhenBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname));
         }
 
         [Test]
-        public void PingRequest_NullHostname_NegativeTest()
+        public void RequestIcmpTest_WhenNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname));
         }
 
 
         [Test]
-        public void PingRequest_BadHostnameAndActualTimeout_NegativeTest()
+        public void RequestIcmpTest_WhenBadHostnameWithActualTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
             int timeout = 2000;
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
-        public void PingRequest_NullHostnameAndActualTimeout_NegativeTest()
+        public void RequestIcmpTest_WhenNullHostnameWithActualTimeout_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
             int timeout = 2000;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
-        public void PingRequest_LocalhostAndBadTimeout_NegativeTest()
+        public void RequestIcmpTest_WhenLocalhostWithBadTimeout_ShouldThrowArgumentOutOfRangeException()
         {
             // Arrange
             string? hostname = "localhost";
             int timeout = -1;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }
 
         [Test]
-        public void PingRequest_LocalhostAndZeroTimeout__NegativeTest()
+        public void RequestIcmpTest_WhenLocalhostWithZeroTimeout_ShouldThrowPingException()
         {
             // Arrange
             string? hostname = "localhost";
             int timeout = 0;
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
         }

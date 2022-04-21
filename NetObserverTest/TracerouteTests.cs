@@ -18,7 +18,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_Test()
+        public void GetIpTraceRouteTest()
         {
             // Arrange
             string hostname = "google.com";
@@ -33,7 +33,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_Test()
+        public void GetIpTraceRouteTest_WhenFullSetOfArguments()
         {
             // Arrange
             string hostname = "google.com";
@@ -52,7 +52,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_BadHostname_NegativeTest()
+        public void GetIpTraceRouteTest_WhenFullSetOfArgumentsWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
@@ -68,7 +68,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_NullHostname_NegativeTest()
+        public void GetIpTraceRouteTest_WhenFullSetOfArgumentsWithNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
@@ -84,7 +84,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_BadTimeout_NegativeTest()
+        public void GetIpTraceRouteTest_WhenFullSetOfArgumentsWithBadTimeout_ShouldThrowArgumentOutOfRangeException()
         {
             // Arrange
             string hostname = "google.com";
@@ -100,7 +100,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_ZeroTimeout_NegativeTest()
+        public void GetIpTraceRouteTest_WhenFullSetOfArgumentsWithZeroTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "google.com";
@@ -114,7 +114,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_FullCustom_LowMaxTtl_Test()
+        public void GetIpTraceRouteTest_WhenFullSetOfArgumentsWithLowMaxTtl()
         {
             // Arrange
             string hostname = "google.com";
@@ -133,32 +133,32 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRoute_BadHostname_NegativeTest()
+        public void GetIpTraceRouteTest_WhenBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
 
         [Test]
-        public void GetIpTraceRoute_NullHostname_NegativeTest()
+        public void GetIpTraceRouteTest_WhenNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
 
 
         [Test]
-        public void GetDetailTraceRoute_Test()
+        public void GetDetailTraceRouteTest()
         {
             // Arrange
             string hostname = "google.com";
@@ -176,33 +176,33 @@ namespace NetObserverTest
             Assert.IsTrue(maxTtl >= actual.Count);
         }
 
-
+        
         [Test]
-        public void GetDetailTraceRoute_BadHostname_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
 
             // Act
-
+         
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
 
         [Test]
-        public void GetDetailTraceRoute_NullHostname_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
 
         [Test]
-        public void GetDetailTraceRoute_FullCustom_Test()
+        public void GetDetailTraceRouteTest_WhenFullSetOfArguments()
         {
             // Arrange
             string hostname = "google.com";
@@ -211,7 +211,6 @@ namespace NetObserverTest
             byte[] buffer = new byte[32];
             bool fragment = true;
             int ttl = 1;
-
             // Act
             List<PingReply> actual = (List<PingReply>)_traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl);
 
@@ -224,7 +223,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetDetailTraceRoute_FullCustom_NullHostname_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenFullSetOfArgumentsWithNullHostname_ShouldThrowArgumentNullException()
         {
             // Arrange
             string? hostname = null;
@@ -240,7 +239,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetDetailTraceRoute_FullCustom_BadHostname_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenFullSetOfArgumentsWithBadHostname_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
@@ -250,13 +249,13 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-
+            
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
-        public void GetDetailTraceRoute_FullCustom_BadTimeout_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenFullSetOfArgumentsWithBadTimeout_ShouldThrowArgumentOutOfRangeException()
         {
             // Arrange
             string hostname = "google.com";
@@ -266,13 +265,13 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-
+            
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
 
         [Test]
-        public void GetDetailTraceRoute_FullCustom_ZeroTimeout_NegativeTest()
+        public void GetDetailTraceRouteTest_WhenFullSetOfArgumentsWithZeroTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "localhost";
@@ -282,7 +281,7 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-
+      
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }

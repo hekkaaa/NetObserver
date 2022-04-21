@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageTags>IP</PackageTags>
+    <PackageId>NetObserver.Helper</PackageId>
+    <Version>0.0.5-alpha</Version>
+    <Authors>Pototsky Alexander</Authors>
+    <Company>Pototsky Alexander</Company>
+    <Product>NetObserver</Product>
+    <Copyright>MIT</Copyright>
+    <PackageProjectUrl>https://github.com/hekkaaa/NetObserver</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hekkaaa/NetObserver</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
