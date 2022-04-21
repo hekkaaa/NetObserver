@@ -106,7 +106,7 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
-            int timeout = 2000; // default timeout
+            int timeout = 2000;
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
@@ -121,7 +121,7 @@ namespace NetObserverTest
         {
             // Arrange
             string? hostname = null;
-            int timeout = 2000; // default timeout
+            int timeout = 2000;
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
@@ -151,7 +151,7 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "google.com";
-            int timeout = 0; // default timeout
+            int timeout = 0; // zero timeout
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
@@ -166,7 +166,7 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "google.com";
-            int timeout = 2000; // default timeout
+            int timeout = 2000;
             byte[] buffer = new byte[0];
             PingOptions options = new PingOptions() { Ttl = 32, DontFragment = true };
 
@@ -183,7 +183,7 @@ namespace NetObserverTest
         {
             // Arrange
             string hostname = "google.com";
-            int timeout = 2000; // default timeout
+            int timeout = 2000;
             byte[] buffer = new byte[32];
             PingOptions options = new PingOptions() { Ttl = 1, DontFragment = true };
             
@@ -199,7 +199,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void RequestIcmpTest_WhenBadHostname_ShouldThrowPingException()
+        public void RequestIcmpTest_WhenHostnameIsBad_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
@@ -224,7 +224,7 @@ namespace NetObserverTest
 
 
         [Test]
-        public void RequestIcmpTest_WhenBadHostnameWithActualTimeout_ShouldThrowPingException()
+        public void RequestIcmpTest_WhenHostnameIsBadWithActualTimeout_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.com";

@@ -133,7 +133,7 @@ namespace NetObserverTest
         }
 
         [Test]
-        public void GetIpTraceRouteTest_WhenBadHostname_ShouldThrowPingException()
+        public void GetIpTraceRouteTest_WhenHostnameIsBad_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
@@ -178,7 +178,7 @@ namespace NetObserverTest
 
         
         [Test]
-        public void GetDetailTraceRouteTest_WhenBadHostname_ShouldThrowPingException()
+        public void GetDetailTraceRouteTest_WhenHostnameIsBad_ShouldThrowPingException()
         {
             // Arrange
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
