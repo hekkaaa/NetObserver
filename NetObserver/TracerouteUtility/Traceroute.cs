@@ -10,10 +10,10 @@ namespace NetObserver.TracerouteUtility
     /// </summary>
     public class Traceroute
     {
-        private int _timeout = 4000; // default timeout https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
-        private int _maxTtl = 30;
+        private const int _timeout = 4000; // default timeout https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
+        private const int _maxTtl = 30;
         private byte[] _buffer = new byte[32]; // default value byte https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping 
-        private bool _fragment = false;
+        private const bool _fragment = false;
 
         /// <summary>
         /// Takes an attempt to determine the route path to the specified network node or workstation by sending an ECHO message of the ICMP protocol.
@@ -61,7 +61,7 @@ namespace NetObserver.TracerouteUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>Returns an object IEnumerableable <see cref="string"/> representing the list of IP addresses of the entire route.</returns>
-        public IEnumerable<string> GetIpTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = default, int ttl = 1, int maxTll = 30)
+        public IEnumerable<string> GetIpTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = _fragment, int ttl = 1, int maxTll = _maxTtl)
         {
             IcmpRequestSender pingSender = new IcmpRequestSender();
             List<string> resultList = new List<string>();
@@ -131,7 +131,7 @@ namespace NetObserver.TracerouteUtility
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
         /// <returns>Returns the IEnumerable <see cref="PingReply"/> object with a detailed description of each route step.</returns>
-        public IEnumerable<PingReply> GetDetailTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = default, int ttl = 1, int maxTtl = 30)
+        public IEnumerable<PingReply> GetDetailTraceRoute(string hostname, int timeout, byte[] buffer, bool frag = _fragment, int ttl = 1, int maxTtl = _maxTtl)
         {
             IcmpRequestSender pingSender = new IcmpRequestSender();
             List<PingReply> resultList = new List<PingReply>();
