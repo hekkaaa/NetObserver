@@ -6,11 +6,19 @@ using System.Net.NetworkInformation;
 
 namespace NetObserver.IpAdressUtility
 {
+    /// <summary>
+    /// Allows the application to determine the IP address of the local host, as well as obtain additional information from network interfaces.
+    /// </summary>
     public class LocalIp
     {
         private static List<string> _listIp = new List<string>();
         private static List<Tuple<PrefixOrigin, string>> _listTuples = new List<Tuple<PrefixOrigin, string>>();
 
+        /// <summary>
+        /// Attempt to obtain the IP address of the local computer.
+        /// </summary>
+        /// <remarks>Selects at the beginning IP addresses with the DHCP prefix, then if it does not find any, it goes to the Manual prefix. </remarks>
+        /// <returns>Returns <see cref="string"/> the actual IP address.</returns>
         public static string GetIpv4Localhost()
         {
             AddIpWithDhcpPrefix();
@@ -20,6 +28,10 @@ namespace NetObserver.IpAdressUtility
             return _listIp.FirstOrDefault()?.ToString();
         }
 
+        /// <summary>
+        /// Attempt to get a tuple with a prefix and an ip address.
+        /// </summary>
+        /// <returns>Returns <see cref="Tuple(PrefixOrigin, string)"/> the actual IP address.</returns>
         public static List<Tuple<PrefixOrigin, string>> GetAllIpv4NetInterface()
         {
             AddIpAndPrefixWithDhcpPrefix();
