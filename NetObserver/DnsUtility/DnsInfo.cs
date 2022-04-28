@@ -13,7 +13,7 @@ namespace NetObserver.DnsUtility
     public class DnsInfo
     {
         /// <summary>
-        /// Gets or sets the DNS name of the host.
+        /// Gets a DNS name of the host.
         /// </summary>
         /// <remarks>The method makes sense to use when getting the hostname from the IP-address.</remarks>
         /// <param name="hostname">The address of the remote host that you want to get information about.</param>
@@ -49,7 +49,7 @@ namespace NetObserver.DnsUtility
         }
 
         /// <summary>
-        /// Gets or sets a list of aliases that are associated with a host.
+        /// Gets a list of aliases that are associated with a host.
         /// </summary>
         /// <remarks>It makes sense to use the method when specifying the hostname, not its IP address.</remarks>
         /// <param name="hostname">The address of the remote host that you want to get information about.</param>
@@ -85,7 +85,7 @@ namespace NetObserver.DnsUtility
         }
 
         /// <summary>
-        /// Gets or sets a list of IP addresses that are associated with a host.
+        /// Gets a list of IP addresses that are associated with a host.
         /// </summary>
         /// <param name="hostname">The address of the remote host that you want to get information about.</param>
         /// <exception cref="ArgumentNullException"> Hostname is null.</exception>
