@@ -29,21 +29,11 @@ Features include:
     <RepositoryType>git</RepositoryType>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
-    <ApplicationIcon>Resources\IconsPacket.png</ApplicationIcon>
     <PackageIcon>IconsPacket.png</PackageIcon>
-    <PackageReadmeFile>ChangeLog.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Resources\IconsPacket.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\ChangeLog.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="Resources\IconsPacket.png">
+    <None Include="..\..\..\..\Users\Laise\Downloads\IconsPacket.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
