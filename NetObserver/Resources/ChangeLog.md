@@ -1,17 +1,17 @@
 Changelog
 =========
 
-### Version 1.1.0 (-- -- 2022)
+### Version 1.1.0 (04 May 2022)
 
 #### Changes:
-#### Changes:
+* [29] Added a utility in the OpenPort class allows you to check open ports on remote hosts.
 * [25] Added utility in class LocalIp method return List<Tuple> With PrefixOrigin and Ipadress.
 * [23] Added utility to determine the exact IP address of the local host.
 
-
+[29]: https://github.com/hekkaaa/NetObserver/issues/29
 [25]:https://github.com/hekkaaa/NetObserver/issues/25
 [23]:https://github.com/hekkaaa/NetObserver/issues/23
-
+ 
 
 ### Version 1.0.1 (22 Apr 2022)
 

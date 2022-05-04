@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageTags>Ip, Network, Traceroute, netstandard2.0</PackageTags>
+    <PackageTags>Ip, Network, Traceroute, netstandard2.0, Dns, Tcp</PackageTags>
     <PackageId>NetObserver.Helper</PackageId>
     <Version>1.1.0</Version>
     <Authors>Pototsky Alexander</Authors>
@@ -16,8 +16,12 @@
 Features include: 
 * Send ICMP-ECHO request.
 * Traceroute and Ping utility
-* Getting Local IP Address</Description>
-    <PackageReleaseNotes></PackageReleaseNotes>
+* Getting Local IP Address
+* Search for open ports.
+* Simple functional possibilities for resolving domain names</Description>
+    <PackageReleaseNotes>* Added a utility in the OpenPort class allows you to check open ports on remote hosts.
+* Added utility in class LocalIp method return List&lt;Tuple&gt; With PrefixOrigin and Ipadress.
+* Added utility to determine the exact IP address of the local host.</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <EnableNETAnalyzers>False</EnableNETAnalyzers>
@@ -25,6 +29,24 @@ Features include:
     <RepositoryType>git</RepositoryType>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+    <ApplicationIcon>Resources\IconsPacket.png</ApplicationIcon>
+    <PackageIcon>IconsPacket.png</PackageIcon>
+    <PackageReadmeFile>ChangeLog.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\IconsPacket.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\ChangeLog.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\IconsPacket.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
