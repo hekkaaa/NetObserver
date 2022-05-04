@@ -11,7 +11,7 @@ namespace NetObserver.IpAdressUtility
     /// <summary>
     /// Tries to check whether the port is open for the TCP protocol
     /// </summary>
-    public class TCPPort
+    public class OpenPort
     {
 
         /// <summary>
@@ -29,20 +29,21 @@ namespace NetObserver.IpAdressUtility
                     $"The value of the argument is outside the range of permissible values"); 
             }
 
-            using (TcpClient tcpClient = new TcpClient())
+            using (TcpClient socket = new TcpClient())
             {
-                try
+                IAsyncResult result = socket.BeginConnect(hostname, port, null, null);
+
+                bool succ = result.AsyncWaitHandle.WaitOne(1000, true);
+
+                if (socket.Connected)
                 {
-                    tcpClient.Connect(hostname, port);
+                    socket.EndConnect(result);
                     return new PortReply(port, PortStatus.Open);
                 }
-                catch (Exception)
+                else
                 {
+                    socket.Close();
                     return new PortReply(port, PortStatus.Closed);
-                }
-                finally
-                {
-                    tcpClient.Close();
                 }
             }
         }
@@ -67,20 +68,21 @@ namespace NetObserver.IpAdressUtility
 
             for(int i = startPort; i <= endPort; i++)
             {
-                using (TcpClient tcpClient = new TcpClient())
+                using (TcpClient socket = new TcpClient())
                 {
-                    try
+                    IAsyncResult result = socket.BeginConnect(hostname, i, null, null);
+
+                    bool succ = result.AsyncWaitHandle.WaitOne(1000, true);
+
+                    if (socket.Connected)
                     {
-                        tcpClient.Connect(hostname, i);
-                        list.Add(new PortReply(i, PortStatus.Open)); 
+                        socket.EndConnect(result);
+                        list.Add(new PortReply(i, PortStatus.Open));
                     }
-                    catch (Exception)
+                    else
                     {
+                        socket.Close();
                         list.Add(new PortReply(i, PortStatus.Closed));
-                    }
-                    finally
-                    {
-                        tcpClient.Close();
                     }
                 }
             }
