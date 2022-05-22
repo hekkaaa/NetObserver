@@ -1,7 +1,7 @@
 # NetObserver
 
-A helper library to simplify code flavor with networking.
-Includes tracing, ICMP requests.
+Helper library to simplify the development of network functions and methods.
+Includes tracing, ICMP requests, Async ICMP requests, Getting Local IP Address, Search for open ports.
 
 ## Add library
 **Nuget Packet:** [here](https://www.nuget.org/packages/NetObserver.Helper/ "Actual Nuget Packet").
@@ -67,6 +67,4 @@ and a complete list of platforms and versions, you can find in the official <a h
 
 ## Help
 If you want to help write a package, you can always contact the developer through:
-- Telegram: <https://t.me/Hekkaaa>
 - Email: <Laiserk24SKA@gmail.com>
-- Twitter: <https://twitter.com/AlexandrDimko>
