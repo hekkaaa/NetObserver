@@ -17,7 +17,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>A List <see cref="PingReply"/> objects that provides information about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
+        /// <returns>A <see cref="PingReply"/> objects that provides information about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
         public PingReply RequestIcmp(string hostname)
         {
             using (Ping ping = new Ping())

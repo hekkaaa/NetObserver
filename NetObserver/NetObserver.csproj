@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<PackageTags>Ip, Network, Traceroute, netstandard2.0, Dns, Tcp, Port</PackageTags>
+	<PackageTags>Ip, Network, Traceroute, Tracert,netstandard2.0, Dns, Tcp, Port, ScanPort</PackageTags>
     <PackageId>NetObserver.Helper</PackageId>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Pototsky Alexander</Authors>
     <Company>Pototsky Alexander</Company>
     <Product>NetObserver</Product>
@@ -16,11 +16,12 @@
 
 Features include: 
 * Send ICMP-ECHO request.
+* SendAsync ICMP-ECHO request.
 * Traceroute and Ping utility
 * Getting Local IP Address
 * Search for open ports.
 * Simple functional possibilities for resolving domain names</Description>
-    <PackageReleaseNotes>* fix Documentation spec</PackageReleaseNotes>
+    <PackageReleaseNotes>* added 2 asynchronous ICMP-request methods</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <EnableNETAnalyzers>False</EnableNETAnalyzers>
