@@ -67,4 +67,4 @@ and a complete list of platforms and versions, you can find in the official <a h
 
 ## Help
 If you want to help write a package, you can always contact the developer through:
-- Email: <Laiserk24SKA@gmail.com>
+- Email: <silencemyalise@gmail.com>
