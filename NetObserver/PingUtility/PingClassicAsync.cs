@@ -28,7 +28,7 @@ namespace NetObserver.PingUtility
 
             for (int i = 0; i < 4; i++)
             {
-                pingReplyListReturn.Add(await ping.RequestPingAsync(hostname));
+                pingReplyListReturn.Add(await ping.RequestIcmpAsync(hostname));
             }
 
             return pingReplyListReturn;
@@ -52,7 +52,7 @@ namespace NetObserver.PingUtility
 
             for (int i = 0; i < repeat; i++)
             {
-                pingReplyListReturn.Add(await ping.RequestPingAsync(hostname));
+                pingReplyListReturn.Add(await ping.RequestIcmpAsync(hostname));
             }
 
             return pingReplyListReturn;
@@ -77,7 +77,7 @@ namespace NetObserver.PingUtility
 
             for (int i = 0; i < repeat; i++)
             {
-                pingReplyListReturn.Add(await ping.RequestPingAsync(hostname, timeout));
+                pingReplyListReturn.Add(await ping.RequestIcmpAsync(hostname, timeout));
             }
 
             return pingReplyListReturn;
