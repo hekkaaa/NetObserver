@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NetObserver.TracerouteUtility
 {
+    /// <summary>
+    /// Allows async an application to determine a route to a destination by sending ICMP (Internet Control Protocol) echo packets to the destination.
+    /// </summary>
     public class TracerouteAsync
     {
         private const int _timeout = 4000; // default timeout https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping

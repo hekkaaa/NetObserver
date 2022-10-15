@@ -31,7 +31,7 @@ namespace NetObserver.IpAdressUtility
         /// <summary>
         /// Attempt to get a tuple with a prefix and an ip address.
         /// </summary>
-        /// <returns>Returns <see cref="Tuple(PrefixOrigin, string)"/> the actual IP address.</returns>
+        /// <returns>Returns <see cref="T:Tuple(PrefixOrigin, string)"/> the actual IP address.</returns>
         public static List<Tuple<PrefixOrigin, string>> GetAllIpv4NetInterface()
         {
             AddIpAndPrefixWithDhcpPrefix();

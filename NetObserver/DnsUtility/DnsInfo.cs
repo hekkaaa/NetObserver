@@ -55,7 +55,7 @@ namespace NetObserver.DnsUtility
         /// <exception cref="SocketException">Hostname resolves with an error.</exception>
         /// <exception cref="ArgumentException">Hostname is an invalid IP address.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>Returns a <see cref="string[]"/> containing DNS names converted to IP addresses.</returns>
+        /// <returns>Returns a <see cref="T:string[]"/> - containing DNS names converted to IP addresses.</returns>
         public static string[] DnsAliases(string hostname)
         {
             try { return Dns.GetHostEntry(hostname).Aliases; }
@@ -90,7 +90,7 @@ namespace NetObserver.DnsUtility
         /// <exception cref="SocketException">Hostname resolves with an error.</exception>
         /// <exception cref="ArgumentException">Hostname is an invalid IP address.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>An array of type  <see cref="IPAddress[]"/> that contains IP addresses that resolve to the host names.</returns>
+        /// <returns>An array of type  <see cref="T:IPAddress[]"/> that contains IP addresses that resolve to the host names.</returns>
         public static IPAddress[] DnsAddressList(string hostname)
         {
             try { return Dns.GetHostEntry(hostname).AddressList; }
