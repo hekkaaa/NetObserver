@@ -32,7 +32,7 @@ namespace NetObserver.PingUtility
 
             return pingReplyListReturn;
         }
-       
+
         /// <summary>
         /// Attempts to send the specified number of ICMP ping request messages to the remote computer and receive an appropriate ICMP ping response message from the remote computer.
         /// </summary>

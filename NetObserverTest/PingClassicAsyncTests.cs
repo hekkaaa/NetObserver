@@ -2,9 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetObserverTest
@@ -119,7 +117,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<PingException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
+            Assert.ThrowsAsync<PingException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -151,7 +149,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<PingException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
+            Assert.ThrowsAsync<PingException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -166,7 +164,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentOutOfRangeException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
+            Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -180,7 +178,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<PingException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname, countItemRepeat));
+            Assert.ThrowsAsync<PingException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -207,7 +205,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<PingException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname));
+            Assert.ThrowsAsync<PingException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname));
             return Task.CompletedTask;
         }
 
@@ -220,7 +218,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async() => await _pingClassicAsync!.RequestPingAsync(hostname));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname));
             return Task.CompletedTask;
         }
     }

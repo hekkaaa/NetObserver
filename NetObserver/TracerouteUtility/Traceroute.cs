@@ -1,5 +1,5 @@
-﻿using System;
-using NetObserver.PingUtility;
+﻿using NetObserver.PingUtility;
+using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 

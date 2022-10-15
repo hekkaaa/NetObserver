@@ -22,8 +22,8 @@ namespace NetObserver.IpAdressUtility
         public static string GetIpv4Localhost()
         {
             AddIpWithDhcpPrefix();
-            if(_listIp.Count > 0) return _listIp.FirstOrDefault()?.ToString();
-            AddIpWithManualPrefix(); 
+            if (_listIp.Count > 0) return _listIp.FirstOrDefault()?.ToString();
+            AddIpWithManualPrefix();
 
             return _listIp.FirstOrDefault()?.ToString();
         }
