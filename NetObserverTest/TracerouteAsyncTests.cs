@@ -118,24 +118,25 @@ namespace NetObserverTest
             return Task.CompletedTask;
         }
 
-        [Test]
-        public async Task GetIpTraceRouteAsyncTest_WhenFullSetOfArgumentsWithLowMaxTtl()
-        {
-            // Arrange
-            string hostname = "google.com";
-            int timeout = 4000;
-            byte[] buffer = new byte[32];
-            int maxTtl = 3;
-            bool fragment = true;
-            int ttl = 1;
+        // Not actual test. Max ttl is not stable response.
+        //[Test]
+        //public async Task GetIpTraceRouteAsyncTest_WhenFullSetOfArgumentsWithLowMaxTtl()
+        //{
+        //    // Arrange
+        //    string hostname = "google.com";
+        //    int timeout = 4000;
+        //    byte[] buffer = new byte[32];
+        //    int maxTtl = 3;
+        //    bool fragment = true;
+        //    int ttl = 1;
 
-            // Act
-            List<string> actual = (List<string>)await _tracerouteAsync!.GetIpTraceRouteAsync(hostname, timeout, buffer, fragment, ttl, maxTtl);
+        //    // Act
+        //    List<string> actual = (List<string>)await _tracerouteAsync!.GetIpTraceRouteAsync(hostname, timeout, buffer, fragment, ttl, maxTtl);
 
-            // Assert
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(maxTtl, actual.Count);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(actual);
+        //    Assert.AreEqual(maxTtl, actual.Count);
+        //}
 
         [Test]
         public Task GetIpTraceRouteAsyncTest_WhenHostnameIsBad_ShouldThrowPingException()
