@@ -5,7 +5,7 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<PackageTags>Ip, Network, Traceroute, Tracert,netstandard2.0, Dns, Tcp, Port, ScanPort</PackageTags>
     <PackageId>NetObserver.Helper</PackageId>
-    <Version>1.1.3 - pre-Release</Version>
+    <Version>1.1.3</Version>
     <Authors>Pototsky Alexander</Authors>
     <Company>Pototsky Alexander</Company>
     <Product>NetObserver</Product>
