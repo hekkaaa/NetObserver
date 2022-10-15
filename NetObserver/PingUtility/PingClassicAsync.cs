@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>A Task<List> of 4 <see cref="PingReply"/> objects that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
+        /// <returns>A Task List of 4 <see cref="PingReply"/> objects that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
         public async Task<List<PingReply>> RequestPingAsync(string hostname)
         {
             IcmpRequestSenderAsync ping = new IcmpRequestSenderAsync();
@@ -42,7 +43,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>A Task<List> <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
+        /// <returns>A Task List <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
         public async Task<List<PingReply>> RequestPingAsync(string hostname, int repeat)
         {
             IcmpRequestSenderAsync ping = new IcmpRequestSenderAsync();
@@ -67,7 +68,7 @@ namespace NetObserver.PingUtility
         /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
         /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
         /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>A Task<List> <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
+        /// <returns>A Task List <see cref="PingReply"/> that provides information  about the ICMP ping response message, if one was received, or the reason for the failure if the message was not received.</returns>
         public async Task<List<PingReply>> RequestPingAsync(string hostname, int timeout, int repeat)
         {
             IcmpRequestSenderAsync ping = new IcmpRequestSenderAsync();
