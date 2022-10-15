@@ -140,7 +140,7 @@ namespace NetObserverTest
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
@@ -152,7 +152,7 @@ namespace NetObserverTest
             string? hostname = null;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname));
         }
@@ -177,7 +177,7 @@ namespace NetObserverTest
             Assert.IsTrue(maxTtl >= actual.Count);
         }
 
-        
+
         [Test]
         public void GetDetailTraceRouteTest_WhenHostnameIsBad_ShouldThrowPingException()
         {
@@ -185,7 +185,7 @@ namespace NetObserverTest
             string hostname = "aaaaaaaaaaatestnonsite1111.net";
 
             // Act
-         
+
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
@@ -197,7 +197,7 @@ namespace NetObserverTest
             string? hostname = null;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname));
         }
@@ -250,7 +250,7 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
@@ -266,7 +266,7 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }
@@ -282,7 +282,7 @@ namespace NetObserverTest
             int ttl = 1;
 
             // Act
-      
+
             // Assert
             Assert.Throws<PingException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
         }

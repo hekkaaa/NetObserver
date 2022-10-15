@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetObserver.PingUtility
@@ -43,7 +41,7 @@ namespace NetObserver.PingUtility
                 {
                     throw new PingException("An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.", ex.InnerException);
                 }
-                catch(SocketException ex)
+                catch (SocketException ex)
                 {
                     throw new SocketException(ex.ErrorCode);
                 }

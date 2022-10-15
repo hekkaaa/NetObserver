@@ -1,15 +1,15 @@
-using NUnit.Framework;
 using NetObserver.PingUtility;
-using System.Net.NetworkInformation;
-using System.Collections.Generic;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace NetObserverTest
 {
     public class PingClassicTests
     {
         private PingClassic? _pingClassic;
-        
+
         [SetUp]
         public void Setup()
         {
@@ -59,7 +59,7 @@ namespace NetObserverTest
             string hostname = "google.com";
             int countItemRepeat = 6; // user repeat
             IPStatus expectedStatus = IPStatus.Success;
-           
+
             // Act
             List<PingReply> actual = _pingClassic!.RequestPing(hostname, countItemRepeat);
 
@@ -77,7 +77,7 @@ namespace NetObserverTest
             int countItemRepeat = 10; // user repeat
             int valueTimeout = 2000;
             IPStatus expectedStatus = IPStatus.Success;
-          
+
             // Act
             List<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
 
@@ -114,7 +114,7 @@ namespace NetObserverTest
             int valueTimeout = 2000;
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
@@ -129,7 +129,7 @@ namespace NetObserverTest
             PingClassic itemClass = new PingClassic();
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
@@ -144,7 +144,7 @@ namespace NetObserverTest
             PingClassic itemClass = new PingClassic();
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
@@ -158,7 +158,7 @@ namespace NetObserverTest
             int valueTimeout = -10;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
         }
@@ -171,7 +171,7 @@ namespace NetObserverTest
             int countItemRepeat = 4;
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname, countItemRepeat));
         }
@@ -184,7 +184,7 @@ namespace NetObserverTest
             int countItemRepeat = 4;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, countItemRepeat));
         }
@@ -196,7 +196,7 @@ namespace NetObserverTest
             string hostname = "aaaaaaaaaaatestnonsite1111.com";
 
             // Act
-            
+
             // Assert
             Assert.Throws<PingException>(() => _pingClassic!.RequestPing(hostname));
         }
@@ -208,7 +208,7 @@ namespace NetObserverTest
             string? hostname = null;
 
             // Act
-            
+
             // Assert
             Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname));
         }

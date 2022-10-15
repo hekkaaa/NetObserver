@@ -1,10 +1,7 @@
 ﻿using NetObserver.Model;
-using NetObserver.PingUtility;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
 
 namespace NetObserver.IpAdressUtility
 {
@@ -22,11 +19,11 @@ namespace NetObserver.IpAdressUtility
         /// <param name="port">The port number of the remote host, which you are going to check.</param>
         /// <returns>Returns the <see cref="PortReply"/> object with information about the status(open\closed) of the port.</returns>
         public PortReply GetOpenPort(string hostname, int port)
-        {   
-            if(port <= 0 || port > 65535) 
-            { 
+        {
+            if (port <= 0 || port > 65535)
+            {
                 throw new ArgumentOutOfRangeException("port", $"Port: {port} - " +
-                    $"The value of the argument is outside the range of permissible values"); 
+                    $"The value of the argument is outside the range of permissible values");
             }
 
             using (TcpClient socket = new TcpClient())
@@ -66,7 +63,7 @@ namespace NetObserver.IpAdressUtility
 
             List<PortReply> list = new List<PortReply>();
 
-            for(int i = startPort; i <= endPort; i++)
+            for (int i = startPort; i <= endPort; i++)
             {
                 using (TcpClient socket = new TcpClient())
                 {
