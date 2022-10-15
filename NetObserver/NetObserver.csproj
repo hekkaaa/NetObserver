@@ -21,7 +21,7 @@ Features include:
 * Getting Local IP Address
 * Search for open ports.
 * Simple functional possibilities for resolving domain names</Description>
-    <PackageReleaseNotes>* add TracerouteAsync and ICPMReqest</PackageReleaseNotes>
+    <PackageReleaseNotes>* add TracerouteAsync and ICMP Reqest</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <EnableNETAnalyzers>False</EnableNETAnalyzers>
