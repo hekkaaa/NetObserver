@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace NetObserver.PingUtility
@@ -140,6 +141,10 @@ namespace NetObserver.PingUtility
                 catch (ObjectDisposedException ex)
                 {
                     throw new ObjectDisposedException("This object has been disposed.", ex.InnerException);
+                }
+                catch (PlatformNotSupportedException ex)
+                {
+                    throw new PlatformNotSupportedException("This code does not work on the current platform", ex.InnerException);
                 }
                 catch (Exception ex)
                 {
