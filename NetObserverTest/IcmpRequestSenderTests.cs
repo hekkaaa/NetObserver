@@ -128,7 +128,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout, buffer, options));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname!, timeout, buffer, options));
         }
 
         [Test]
@@ -219,7 +219,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname!));
         }
 
 
@@ -246,7 +246,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname, timeout));
+            Assert.Throws<ArgumentNullException>(() => _pingIcmp!.RequestIcmp(hostname!, timeout));
         }
 
         [Test]
