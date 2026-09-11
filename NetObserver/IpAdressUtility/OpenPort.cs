@@ -26,7 +26,7 @@ namespace NetObserver.IpAdressUtility
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="port"/> is outside the 1-65535 range.</exception>
         /// <returns>A <see cref="PortReply"/> object with information about the status (open/closed) of the port.</returns>
         public PortReply GetOpenPort(string hostname, int port, int timeoutMs = DefaultTimeoutMs) =>
-            GetOpenPortAsync(hostname, port, timeoutMs).GetAwaiter().GetResult();
+            GetOpenPortAsync(hostname, port, timeoutMs, cancellationToken: CancellationToken.None).GetAwaiter().GetResult();
 
         /// <summary>
         /// Asynchronously checks whether the specified port is open.
@@ -37,7 +37,9 @@ namespace NetObserver.IpAdressUtility
         /// <param name="cancellationToken">A token to cancel the scan.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="port"/> is outside the 1-65535 range.</exception>
         /// <returns>A Task producing a <see cref="PortReply"/> object with information about the status (open/closed) of the port.</returns>
+#pragma warning disable CA1822 // Пометьте члены как статические
         public async Task<PortReply> GetOpenPortAsync(string hostname, int port, int timeoutMs = DefaultTimeoutMs, CancellationToken cancellationToken = default)
+#pragma warning restore CA1822 // Пометьте члены как статические
         {
             ValidatePort(port, nameof(port));
 
@@ -72,7 +74,7 @@ namespace NetObserver.IpAdressUtility
         /// <param name="timeoutMs">Maximum time to wait per port, in milliseconds. Defaults to 1000ms.</param>
         /// <exception cref="ArgumentOutOfRangeException">The port range is invalid.</exception>
         /// <returns>A list of <see cref="PortReply"/> objects, ordered by port number, ascending.</returns>
-        public List<PortReply> GetOpenPort(string hostname, int startPort, int endPort, int timeoutMs = DefaultTimeoutMs) =>
+        public IReadOnlyList<PortReply> GetOpenPort(string hostname, int startPort, int endPort, int timeoutMs = DefaultTimeoutMs) =>
             GetOpenPortAsync(hostname, startPort, endPort, timeoutMs).GetAwaiter().GetResult();
 
         /// <summary>
@@ -126,7 +128,11 @@ namespace NetObserver.IpAdressUtility
                 return;
             }
 
-            task.ContinueWith(t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+            task.ContinueWith(
+                t => { _ = t.Exception; },
+                CancellationToken.None,
+                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
         }
 
         private static void ValidatePort(int port, string paramName)

@@ -104,7 +104,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname!));
             return Task.CompletedTask;
         }
 
@@ -132,7 +132,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname, timeout));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname!, timeout));
             return Task.CompletedTask;
         }
 
@@ -192,7 +192,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname, timeout, buffer, options));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingIcmpAsync!.RequestIcmpAsync(hostname!, timeout, buffer, options));
             return Task.CompletedTask;
         }
 

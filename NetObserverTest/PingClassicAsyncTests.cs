@@ -133,7 +133,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, valueTimeout, countItemRepeat));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname!, valueTimeout, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -192,7 +192,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname, countItemRepeat));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname!, countItemRepeat));
             return Task.CompletedTask;
         }
 
@@ -218,7 +218,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _pingClassicAsync!.RequestPingAsync(hostname!));
             return Task.CompletedTask;
         }
     }

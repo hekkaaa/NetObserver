@@ -16,7 +16,7 @@ namespace NetObserver.PingUtility
         /// </summary>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
         /// <returns>A list of 4 <see cref="PingReply"/> objects that provide information about the ICMP ping response messages received (or the reason for failure).</returns>
-        public List<PingReply> RequestPing(string hostname) => RequestPing(hostname, 4);
+        public IReadOnlyList<PingReply> RequestPing(string hostname) => RequestPing(hostname, 4);
 
         /// <summary>
         /// Attempts to send the specified number of ICMP ping request messages to the remote computer.
@@ -25,7 +25,7 @@ namespace NetObserver.PingUtility
         /// <param name="repeat">Number of ICMP request repetitions. Must be greater than zero.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="repeat"/> is less than or equal to zero.</exception>
         /// <returns>A list of <see cref="PingReply"/> objects that provide information about the ICMP ping response messages received (or the reason for failure).</returns>
-        public List<PingReply> RequestPing(string hostname, int repeat)
+        public IReadOnlyList<PingReply> RequestPing(string hostname, int repeat)
         {
             if (repeat <= 0)
             {
@@ -49,7 +49,7 @@ namespace NetObserver.PingUtility
         /// <param name="repeat">Number of ICMP request repetitions. Must be greater than zero.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="repeat"/> is less than or equal to zero.</exception>
         /// <returns>A list of <see cref="PingReply"/> objects that provide information about the ICMP ping response messages received (or the reason for failure).</returns>
-        public List<PingReply> RequestPing(string hostname, int timeout, int repeat)
+        public IReadOnlyList<PingReply> RequestPing(string hostname, int timeout, int repeat)
         {
             if (repeat <= 0)
             {

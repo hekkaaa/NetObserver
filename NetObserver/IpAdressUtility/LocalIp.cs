@@ -34,10 +34,9 @@ namespace NetObserver.IpAdressUtility
         }
 
         /// <summary>
-        /// Gets a tuple of (prefix origin, IP address) for every matching address found across all network interfaces.
+        /// Gets a collection of (prefix origin, IP address) for every matching address found across all network interfaces.
         /// </summary>
-        /// <returns>A new <see cref="List{T}"/> of <see cref="Tuple{PrefixOrigin, String}"/> built fresh from the current network state.</returns>
-        public static List<Tuple<PrefixOrigin, string>> GetAllIpv4NetInterface()
+        public static IReadOnlyCollection<Tuple<PrefixOrigin, string>> GetAllIpv4NetInterface()
         {
             var result = new List<Tuple<PrefixOrigin, string>>();
             result.AddRange(GetAddressesByPrefix(PrefixOrigin.Dhcp).Select(ip => Tuple.Create(PrefixOrigin.Dhcp, ip)));

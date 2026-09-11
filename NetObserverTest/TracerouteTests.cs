@@ -80,7 +80,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname!, timeout, buffer, fragment, ttl));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetIpTraceRoute(hostname!));
         }
 
 
@@ -199,7 +199,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname!));
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname, timeout, buffer, fragment, ttl));
+            Assert.Throws<ArgumentNullException>(() => _traceroute!.GetDetailTraceRoute(hostname!, timeout, buffer, fragment, ttl));
         }
 
         [Test]

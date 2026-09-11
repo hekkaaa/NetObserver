@@ -25,7 +25,7 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
 
             // Act
-            List<PingReply> actual = _pingClassic!.RequestPing(hostname);
+            IReadOnlyList<PingReply> actual = _pingClassic!.RequestPing(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -43,7 +43,7 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
 
             // Act
-            List<PingReply> actual = _pingClassic!.RequestPing(hostname);
+            IReadOnlyList<PingReply> actual = _pingClassic!.RequestPing(hostname);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -61,7 +61,7 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
 
             // Act
-            List<PingReply> actual = _pingClassic!.RequestPing(hostname, countItemRepeat);
+            IReadOnlyList<PingReply> actual = _pingClassic!.RequestPing(hostname, countItemRepeat);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -79,7 +79,7 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
 
             // Act
-            List<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
+            IReadOnlyList<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -97,7 +97,7 @@ namespace NetObserverTest
             IPStatus expectedStatus = IPStatus.Success;
 
             // Act
-            List<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
+            IReadOnlyList<PingReply> actual = _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -131,7 +131,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, valueTimeout, countItemRepeat));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname!, valueTimeout, countItemRepeat));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname, countItemRepeat));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname!, countItemRepeat));
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname));
+            Assert.Throws<ArgumentNullException>(() => _pingClassic!.RequestPing(hostname!));
         }
     }
 }

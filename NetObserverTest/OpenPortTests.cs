@@ -75,7 +75,7 @@ namespace NetObserverTest
             int endPort = 82;
 
             // Act
-            List<PortReply> actual = _openPort!.GetOpenPort(hostname, startPort, endPort);
+            IReadOnlyCollection<PortReply> actual = _openPort!.GetOpenPort(hostname, startPort: startPort, endPort: endPort);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -95,7 +95,7 @@ namespace NetObserverTest
             int endPort = 82;
 
             // Act
-            List<PortReply> actual = _openPort!.GetOpenPort(hostname, startPort, endPort);
+            IReadOnlyCollection<PortReply> actual = _openPort!.GetOpenPort(hostname, startPort: startPort, endPort: endPort);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -199,7 +199,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname, startPort, endPort));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname: hostname, startPort: startPort, endPort: endPort));
         }
 
         [Test]
@@ -211,9 +211,10 @@ namespace NetObserverTest
             int endPort = 77777;
 
             // Act
+            var qq = _openPort!.GetOpenPort(hostname, startPort, endPort);
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname, startPort, endPort));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname: hostname, startPort: startPort, endPort: endPort));
         }
 
         [Test]
@@ -227,7 +228,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname, startPort, endPort));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname: hostname, startPort: startPort, endPort: endPort));
         }
 
         [Test]
@@ -241,7 +242,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname, startPort, endPort));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _openPort!.GetOpenPort(hostname: hostname, startPort: startPort, endPort: endPort));
         }
     }
 }

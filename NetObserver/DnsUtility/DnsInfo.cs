@@ -21,6 +21,7 @@ namespace NetObserver.DnsUtility
         public static string DnsHostname(string hostname) =>
             ExceptionHelper.Execute(() => Dns.GetHostEntry(hostname).HostName, nameof(DnsHostname));
 
+#pragma warning disable CA1200 // Avoid using cref tags with a prefix
         /// <summary>
         /// Gets a list of aliases that are associated with a host.
         /// </summary>
@@ -30,10 +31,14 @@ namespace NetObserver.DnsUtility
         /// <exception cref="System.ArgumentOutOfRangeException">The hostname parameter is longer than 255 characters.</exception>
         /// <exception cref="System.Net.Sockets.SocketException">Hostname resolves with an error.</exception>
         /// <exception cref="System.ArgumentException">Hostname is an invalid IP address.</exception>
+
         /// <returns>A <see cref="T:string[]"/> containing DNS aliases for the host.</returns>
+#pragma warning restore CA1200
         public static string[] DnsAliases(string hostname) =>
             ExceptionHelper.Execute(() => Dns.GetHostEntry(hostname).Aliases, nameof(DnsAliases));
 
+
+#pragma warning disable CA1200 // Не используйте теги cref в префиксе
         /// <summary>
         /// Gets a list of IP addresses that are associated with a host.
         /// </summary>
@@ -45,5 +50,6 @@ namespace NetObserver.DnsUtility
         /// <returns>An array of <see cref="T:IPAddress[]"/> that contains the IP addresses that resolve to the host name.</returns>
         public static IPAddress[] DnsAddressList(string hostname) =>
             ExceptionHelper.Execute(() => Dns.GetHostEntry(hostname).AddressList, nameof(DnsAddressList));
+#pragma warning restore CA1200 // Не используйте теги cref в префиксе
     }
 }

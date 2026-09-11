@@ -82,7 +82,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetIpTraceRouteAsync(hostname, timeout, buffer, fragment, ttl));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetIpTraceRouteAsync(hostname!, timeout, buffer, fragment, ttl));
             return Task.CompletedTask;
         }
 
@@ -160,7 +160,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetDetailTraceRouteAsync(hostname));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetDetailTraceRouteAsync(hostname!));
             return Task.CompletedTask;
         }
 
@@ -205,7 +205,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetIpTraceRouteAsync(hostname));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetIpTraceRouteAsync(hostname!));
             return Task.CompletedTask;
         }
 
@@ -243,7 +243,7 @@ namespace NetObserverTest
             // Act
 
             // Assert
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetDetailTraceRouteAsync(hostname, timeout, buffer, fragment, ttl));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _tracerouteAsync!.GetDetailTraceRouteAsync(hostname!, timeout, buffer, fragment, ttl));
         }
 
         [Test]
