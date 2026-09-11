@@ -1,5 +1,4 @@
-﻿using NetObserver.PingUtility;
-using System;
+using NetObserver.PingUtility;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -7,152 +6,110 @@ using System.Threading.Tasks;
 namespace NetObserver.TracerouteUtility
 {
     /// <summary>
-    /// Allows async an application to determine a route to a destination by sending ICMP (Internet Control Protocol) echo packets to the destination.
+    /// Allows an application to asynchronously determine a route to a destination by sending ICMP echo packets with increasing TTL values.
     /// </summary>
     public class TracerouteAsync
     {
-        private const int _timeout = 4000; // default timeout https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
-        private const int _maxTtl = 30;
-        private byte[] _buffer = new byte[32]; // default value byte https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping 
-        private const bool _fragment = false;
+        private const int DefaultTimeout = 4000; // default timeout https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
+        private const int DefaultMaxTtl = 30;
+        private const bool DefaultFragment = false;
+        private static readonly byte[] DefaultBuffer = new byte[32]; // default value byte https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
+
+        private readonly IcmpRequestSenderAsync _pingSender = new IcmpRequestSenderAsync();
 
         /// <summary>
-        /// Takes an attempt to determine the route path to the specified network node or workstation by sending an ECHO message of the ICMP protocol.
+        /// Attempts to asynchronously determine the route path to the specified network node by sending ICMP echo messages with increasing TTL.
         /// </summary>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
-        /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
-        /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
-        /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
-        /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>Returns an object IEnumerableable <see cref="string"/> representing the list of IP addresses of the entire route.</returns>
-        public async Task<IEnumerable<string>> GetIpTraceRouteAsync(string hostname)
-        {
-            IcmpRequestSenderAsync pingSender = new IcmpRequestSenderAsync();
-            List<string> resultList = new List<string>();
-
-            for (var ttl = 1; ttl <= _maxTtl; ttl++)
-            {
-                PingReply reply = await pingSender.RequestIcmpAsync(hostname, _timeout, _buffer, new PingOptions { Ttl = ttl, DontFragment = _fragment });
-                if (reply.Status == IPStatus.Success)
-                {
-                    resultList.Add(reply.Address.ToString());
-                    break;
-                }
-                else if (reply.Status == IPStatus.TtlExpired)
-                {
-                    resultList.Add(reply.Address.ToString());
-                }
-            }
-            return resultList;
-        }
+        /// <returns>A Task producing the list of IP addresses along the route, in order.</returns>
+        public Task<IEnumerable<string>> GetIpTraceRouteAsync(string hostname) =>
+            TraceRouteCoreAsync(hostname, DefaultTimeout, DefaultBuffer, DefaultFragment, 1, DefaultMaxTtl);
 
         /// <summary>
-        /// Attempts async to determine the route path to the specified network host or workstation by sending an ICMP ECHO message containing user-specified detailed settings.
+        /// Attempts to asynchronously determine the route path to the specified network host using the given ICMP echo settings.
         /// </summary>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
-        /// <param name="timeout">An Int32 value that specifies the maximum time (after sending ping messages) to wait for an ICMP ping message, in milliseconds.</param>
-        /// <param name="buffer">A Byte[] array that contains data to be sent with the ICMP echo message and returned in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.</param>
-        /// <param name="frag">DontFragment = Packet fragmentation (Default value = (bool) true).</param>
-        /// <param name="ttl">TTL = Initial value at the beginning of the trace (Default value = (int) 1).</param>
-        /// <param name="maxTll">Maximum burst lifetime (TTL).</param>
-        /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
-        /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
-        /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
-        /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>Returns an object Task IEnumerableable <see cref="string"/> representing the list of IP addresses of the entire route.</returns>
-        public async Task<IEnumerable<string>> GetIpTraceRouteAsync(string hostname, int timeout, byte[] buffer, bool frag = _fragment, int ttl = 1, int maxTll = _maxTtl)
-        {
-            IcmpRequestSenderAsync pingSender = new IcmpRequestSenderAsync();
-            List<string> resultList = new List<string>();
-
-            for (var innerTtl = ttl; innerTtl <= maxTll; innerTtl++)
-            {
-                PingOptions innerOptions = new PingOptions() { Ttl = innerTtl, DontFragment = frag };
-                PingReply reply = await pingSender.RequestIcmpAsync(hostname, timeout, buffer, innerOptions);
-                if (reply.Status == IPStatus.Success)
-                {
-                    resultList.Add(reply.Address.ToString());
-                    break;
-                }
-                else if (reply.Status == IPStatus.TtlExpired)
-                {
-                    resultList.Add(reply.Address.ToString());
-                }
-            }
-            return resultList;
-        }
+        /// <param name="timeout">Maximum time to wait for a ping response, in milliseconds.</param>
+        /// <param name="buffer">Data to send with the ICMP echo message. The array cannot contain more than 65,500 bytes.</param>
+        /// <param name="frag">Whether packet fragmentation is disallowed (DontFragment).</param>
+        /// <param name="ttl">Initial TTL value to start the trace at.</param>
+        /// <param name="maxTll">Maximum TTL value before the trace gives up.</param>
+        /// <returns>A Task producing the list of IP addresses along the route, in order.</returns>
+        public Task<IEnumerable<string>> GetIpTraceRouteAsync(string hostname, int timeout, byte[] buffer, bool frag = DefaultFragment, int ttl = 1, int maxTll = DefaultMaxTtl) =>
+            TraceRouteCoreAsync(hostname, timeout, buffer, frag, ttl, maxTll);
 
         /// <summary>
-        /// Attempts async to determine a route path to a specified network host or workstation with a verbose response by sending an ICMP ECHO message containing verbose options specified by the user.
+        /// Attempts to asynchronously determine the route path to the specified network node, returning a detailed <see cref="PingReply"/> per hop.
         /// </summary>
+        /// <remarks>
+        /// For each responding hop, a second, direct ICMP echo (without a TTL restriction) is sent to that
+        /// hop's address so the returned <see cref="PingReply"/> reflects a normal echo response (round-trip
+        /// time, buffer, status) from that specific node, rather than a "TTL expired in transit" reply. This
+        /// roughly doubles the ICMP traffic/time compared to <see cref="GetIpTraceRouteAsync(string)"/>.
+        /// </remarks>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
-        /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
-        /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
-        /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
-        /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>Returns the Task IEnumerable <see cref="PingReply"/> object with a detailed description of each route step.</returns>
-        public async Task<IEnumerable<PingReply>> GetDetailTraceRouteAsync(string hostname)
-        {
-            IcmpRequestSenderAsync pingSender = new IcmpRequestSenderAsync();
-            List<PingReply> resultList = new List<PingReply>();
-
-            for (var ttl = 1; ttl <= _maxTtl; ttl++)
-            {
-                PingReply reply = await pingSender.RequestIcmpAsync(hostname, _timeout, _buffer, new PingOptions { Ttl = ttl, DontFragment = _fragment });
-                if (reply.Status == IPStatus.Success)
-                {
-                    PingReply result = await pingSender.RequestIcmpAsync(reply.Address.ToString(), _timeout);
-                    resultList.Add(result);
-                    break;
-                }
-                else if (reply.Status == IPStatus.TtlExpired)
-                {
-                    PingReply result = await pingSender.RequestIcmpAsync(reply.Address.ToString(), _timeout);
-                    resultList.Add(result);
-                }
-            }
-            return resultList;
-        }
+        /// <returns>A Task producing a detailed <see cref="PingReply"/> per hop discovered along the route.</returns>
+        public Task<IEnumerable<PingReply>> GetDetailTraceRouteAsync(string hostname) =>
+            DetailTraceRouteCoreAsync(hostname, DefaultTimeout, DefaultBuffer, DefaultFragment, 1, DefaultMaxTtl);
 
         /// <summary>
-        /// Takes async an attempt to determine the route path to the specified network node or workstation with a detailed answer, sending an ECHO ICMP message protocol.
+        /// Attempts to asynchronously determine the route path to the specified network host, with a detailed <see cref="PingReply"/> per hop, using the given ICMP echo settings.
         /// </summary>
         /// <param name="hostname">The address of the remote host from which you want to receive a response.</param>
-        /// <param name="timeout">An Int32 value that specifies the maximum time (after sending ping messages) to wait for an ICMP ping message, in milliseconds.</param>
-        /// <param name="buffer">A Byte[] array that contains data to be sent with the ICMP echo message and returned in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.</param>
-        /// <param name="frag">DontFragment = Packet fragmentation (Default value = (bool) true).</param>
-        /// <param name="ttl">TTL = Initial value at the beginning of the trace (Default value = (int) 1).</param>
-        /// <param name="maxTtl">Maximum burst lifetime (TTL)</param>
-        /// <exception cref="ArgumentNullException">Hostname is null or is an empty string ("").</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Timeout is less than zero.</exception>
-        /// <exception cref="PingException">An exception was thrown while sending or receiving the ICMP messages. See the inner exception for the exact exception that was thrown.</exception>
-        /// <exception cref="ObjectDisposedException">This object has been disposed.</exception>
-        /// <exception cref="Exception">Unexpected error.</exception>
-        /// <returns>Returns the Task IEnumerable <see cref="PingReply"/> object with a detailed description of each route step.</returns>
-        public async Task<IEnumerable<PingReply>> GetDetailTraceRouteAsync(string hostname, int timeout, byte[] buffer, bool frag = _fragment, int ttl = 1, int maxTtl = _maxTtl)
+        /// <param name="timeout">Maximum time to wait for a ping response, in milliseconds.</param>
+        /// <param name="buffer">Data to send with the ICMP echo message. The array cannot contain more than 65,500 bytes.</param>
+        /// <param name="frag">Whether packet fragmentation is disallowed (DontFragment).</param>
+        /// <param name="ttl">Initial TTL value to start the trace at.</param>
+        /// <param name="maxTtl">Maximum TTL value before the trace gives up.</param>
+        /// <returns>A Task producing a detailed <see cref="PingReply"/> per hop discovered along the route.</returns>
+        public Task<IEnumerable<PingReply>> GetDetailTraceRouteAsync(string hostname, int timeout, byte[] buffer, bool frag = DefaultFragment, int ttl = 1, int maxTtl = DefaultMaxTtl) =>
+            DetailTraceRouteCoreAsync(hostname, timeout, buffer, frag, ttl, maxTtl);
+
+        private async Task<IEnumerable<string>> TraceRouteCoreAsync(string hostname, int timeout, byte[] buffer, bool frag, int ttl, int maxTtl)
         {
-            IcmpRequestSenderAsync pingSender = new IcmpRequestSenderAsync();
-            List<PingReply> resultList = new List<PingReply>();
+            var resultList = new List<string>();
 
             for (var innerTtl = ttl; innerTtl <= maxTtl; innerTtl++)
             {
-                PingOptions innerOptions = new PingOptions() { Ttl = innerTtl, DontFragment = frag };
-                PingReply reply = await pingSender.RequestIcmpAsync(hostname, timeout, buffer, innerOptions);
+                var options = new PingOptions { Ttl = innerTtl, DontFragment = frag };
+                PingReply reply = await _pingSender.RequestIcmpAsync(hostname, timeout, buffer, options).ConfigureAwait(false);
+
                 if (reply.Status == IPStatus.Success)
                 {
-                    PingReply result = await pingSender.RequestIcmpAsync(reply.Address.ToString(), _timeout);
-                    resultList.Add(result);
+                    resultList.Add(reply.Address.ToString());
                     break;
                 }
-                else if (reply.Status == IPStatus.TtlExpired)
+
+                if (reply.Status == IPStatus.TtlExpired)
                 {
-                    PingReply result = await pingSender.RequestIcmpAsync(reply.Address.ToString(), _timeout);
-                    resultList.Add(result);
+                    resultList.Add(reply.Address.ToString());
                 }
             }
+
+            return resultList;
+        }
+
+        private async Task<IEnumerable<PingReply>> DetailTraceRouteCoreAsync(string hostname, int timeout, byte[] buffer, bool frag, int ttl, int maxTtl)
+        {
+            var resultList = new List<PingReply>();
+
+            for (var innerTtl = ttl; innerTtl <= maxTtl; innerTtl++)
+            {
+                var options = new PingOptions { Ttl = innerTtl, DontFragment = frag };
+                PingReply reply = await _pingSender.RequestIcmpAsync(hostname, timeout, buffer, options).ConfigureAwait(false);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    resultList.Add(await _pingSender.RequestIcmpAsync(reply.Address.ToString(), timeout).ConfigureAwait(false));
+                    break;
+                }
+
+                if (reply.Status == IPStatus.TtlExpired)
+                {
+                    resultList.Add(await _pingSender.RequestIcmpAsync(reply.Address.ToString(), timeout).ConfigureAwait(false));
+                }
+            }
+
             return resultList;
         }
     }

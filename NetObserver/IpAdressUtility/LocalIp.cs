@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,94 +9,59 @@ namespace NetObserver.IpAdressUtility
     /// <summary>
     /// Allows the application to determine the IP address of the local host, as well as obtain additional information from network interfaces.
     /// </summary>
-    public class LocalIp
+    /// <remarks>
+    /// Every call re-enumerates the current network interfaces; nothing is cached between
+    /// calls, so results always reflect the machine's current network state and repeated
+    /// calls never accumulate stale data from earlier calls.
+    /// </remarks>
+    public static class LocalIp
     {
-        private static List<string> _listIp = new List<string>();
-        private static List<Tuple<PrefixOrigin, string>> _listTuples = new List<Tuple<PrefixOrigin, string>>();
-
         /// <summary>
-        /// Attempt to obtain the IP address of the local computer.
+        /// Attempts to obtain the IPv4 address of the local computer.
         /// </summary>
-        /// <remarks>Selects at the beginning IP addresses with the DHCP prefix, then if it does not find any, it goes to the Manual prefix. </remarks>
-        /// <returns>Returns <see cref="string"/> the actual IP address.</returns>
-        public static string GetIpv4Localhost()
+        /// <remarks>Prefers addresses with a DHCP prefix; falls back to a Manual prefix if none are found.</remarks>
+        /// <returns>The first matching IP address as a <see cref="string"/>, or <see langword="null"/> if none was found.</returns>
+        public static string? GetIpv4Localhost()
         {
-            AddIpWithDhcpPrefix();
-            if (_listIp.Count > 0) return _listIp.FirstOrDefault()?.ToString();
-            AddIpWithManualPrefix();
+            var dhcpAddresses = GetAddressesByPrefix(PrefixOrigin.Dhcp);
+            if (dhcpAddresses.Count > 0)
+            {
+                return dhcpAddresses[0];
+            }
 
-            return _listIp.FirstOrDefault()?.ToString();
+            var manualAddresses = GetAddressesByPrefix(PrefixOrigin.Manual);
+            return manualAddresses.Count > 0 ? manualAddresses[0] : null;
         }
 
         /// <summary>
-        /// Attempt to get a tuple with a prefix and an ip address.
+        /// Gets a tuple of (prefix origin, IP address) for every matching address found across all network interfaces.
         /// </summary>
-        /// <returns>Returns <see cref="T:Tuple(PrefixOrigin, string)"/> the actual IP address.</returns>
+        /// <returns>A new <see cref="List{T}"/> of <see cref="Tuple{PrefixOrigin, String}"/> built fresh from the current network state.</returns>
         public static List<Tuple<PrefixOrigin, string>> GetAllIpv4NetInterface()
         {
-            AddIpAndPrefixWithDhcpPrefix();
-            AddIpaAndPrefixWithManualPrefix();
-            return _listTuples;
+            var result = new List<Tuple<PrefixOrigin, string>>();
+            result.AddRange(GetAddressesByPrefix(PrefixOrigin.Dhcp).Select(ip => Tuple.Create(PrefixOrigin.Dhcp, ip)));
+            result.AddRange(GetAddressesByPrefix(PrefixOrigin.Manual).Select(ip => Tuple.Create(PrefixOrigin.Manual, ip)));
+            return result;
         }
 
-        private static void AddIpWithDhcpPrefix()
+        private static List<string> GetAddressesByPrefix(PrefixOrigin prefixOrigin)
         {
-            NetworkInterface[] netInterfaceMass = NetworkInterface.GetAllNetworkInterfaces();
+            var addresses = new List<string>();
 
-            foreach (NetworkInterface interfaceItem in netInterfaceMass)
+            foreach (NetworkInterface networkInterface in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.PrefixOrigin == System.Net.NetworkInformation.PrefixOrigin.Dhcp)
+                UnicastIPAddressInformation? unicast = networkInterface.GetIPProperties()
+                    .UnicastAddresses
+                    .LastOrDefault(a => a.PrefixOrigin == prefixOrigin);
+
+                if (unicast?.Address != null)
                 {
-                    IPAddress ip = interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.Address;
-                    _listIp.Add(ip.ToString());
-                    break;
+                    addresses.Add(unicast.Address.ToString());
                 }
             }
-        }
 
-        private static void AddIpWithManualPrefix()
-        {
-            NetworkInterface[] netInterfaceMass = NetworkInterface.GetAllNetworkInterfaces();
-
-            foreach (NetworkInterface interfaceItem in netInterfaceMass)
-            {
-                if (interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.PrefixOrigin == System.Net.NetworkInformation.PrefixOrigin.Manual)
-                {
-                    IPAddress ip = interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.Address;
-                    _listIp.Add(ip.ToString());
-                    break;
-                }
-            }
-        }
-
-        private static void AddIpAndPrefixWithDhcpPrefix()
-        {
-            NetworkInterface[] netInterfaceMass = NetworkInterface.GetAllNetworkInterfaces();
-
-            foreach (NetworkInterface interfaceItem in netInterfaceMass)
-            {
-                if (interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.PrefixOrigin == System.Net.NetworkInformation.PrefixOrigin.Dhcp)
-                {
-                    IPAddress ip = interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.Address;
-                    PrefixOrigin prefix = System.Net.NetworkInformation.PrefixOrigin.Dhcp;
-                    _listTuples.Add((new Tuple<PrefixOrigin, string>(prefix, ip.ToString())));
-                }
-            }
-        }
-
-        private static void AddIpaAndPrefixWithManualPrefix()
-        {
-            NetworkInterface[] netInterfaceMass = NetworkInterface.GetAllNetworkInterfaces();
-
-            foreach (NetworkInterface interfaceItem in netInterfaceMass)
-            {
-                if (interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.PrefixOrigin == System.Net.NetworkInformation.PrefixOrigin.Manual)
-                {
-                    IPAddress ip = interfaceItem.GetIPProperties().UnicastAddresses.LastOrDefault()?.Address;
-                    PrefixOrigin prefix = System.Net.NetworkInformation.PrefixOrigin.Manual;
-                    _listTuples.Add((new Tuple<PrefixOrigin, string>(prefix, ip.ToString())));
-                }
-            }
+            return addresses;
         }
     }
 }
